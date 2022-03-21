@@ -32,7 +32,18 @@ describe("NFTMarket", function () {
 
     const items = await market.fetchUnsoldMarketItems()
 
-    console.log('unsold market items', items)
+    const formattedItems = await Promise.all(items.map(async ({ price, tokenId, seller, owner }) => {
+      const tokenURI = await nft.tokenURI(tokenId)
+      return {
+        price: price.toString(),
+        tokenId: tokenId.toString(),
+        seller,
+        owner,
+        tokenURI
+      }
+    }))
+
+    console.log('unsold market items', formattedItems)
 
   });
 });
