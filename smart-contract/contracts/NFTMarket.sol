@@ -36,10 +36,10 @@ contract NFTMarket is ReentrancyGuard {
 
     event MarketItemCreated(
         uint256 indexed itemId,
-        address indexed nftContract,
-        uint256 indexed tokenId,
-        address payable seller,
-        address payable owner,
+        address nftContract,
+        uint256 tokenId,
+        address seller,
+        address owner,
         uint256 price,
         bool sold
     );
@@ -85,7 +85,7 @@ contract NFTMarket is ReentrancyGuard {
             nftContract,
             tokenId,
             msg.sender,
-            address(0),
+            address(this),
             price,
             false
         );
@@ -144,7 +144,7 @@ contract NFTMarket is ReentrancyGuard {
         returns (MarketItem[] memory)
     {
         uint256 itemCount = _itemIds.current();
-        uint256 unsoldItemCount = _itemIds.current() - _itemSold.current();
+        uint256 unsoldItemsCount = _itemIds.current() - _itemSold.current();
         uint256 currentIndex = 0;
 
         // Instantiate a new in-memory array of the size of unsoldItemsCount.

@@ -1,19 +1,38 @@
-const { expect } = require("chai");
-const { ethers } = require("hardhat");
 
-describe("Greeter", function () {
-  it("Should return the new greeting once it's changed", async function () {
-    const Greeter = await ethers.getContractFactory("Greeter");
-    const greeter = await Greeter.deploy("Hello, world!");
-    await greeter.deployed();
 
-    expect(await greeter.greet()).to.equal("Hello, world!");
+describe("NFTMarket", function () {
+  it("Should create and execute market sale", async function () {
+    // Deploy and get 'NFTMarket' contract address.
+    const Market = await ethers.getContractFactory('NFTMarket')
+    const market = await Market.deploy()
+    await market.deployed()
+    const marketAddress = market.address
 
-    const setGreetingTx = await greeter.setGreeting("Hola, mundo!");
+    // Deploy and get 'NFT' contract address.
+    const NFT = await ethers.getContractFactory('NFT')
+    const nft = await NFT.deploy(marketAddress)
+    await nft.deployed()
+    const nftContractAddress = nft.address
 
-    // wait until the transaction is mined
-    await setGreetingTx.wait();
+    const listingPrice = await market.getListingPrice()
 
-    expect(await greeter.greet()).to.equal("Hola, mundo!");
+    const auctionPrice = ethers.utils.parseUnits('1', 'ether')
+
+    await nft.createToken('https://media0.giphy.com/media/duzpaTbCUy9Vu/giphy.gif?cid=ecf05e470tj7pgrjk4dellfnm8redpys545p4wkeqczgr60w&rid=giphy.gif&ct=g')
+    await nft.createToken('https://media4.giphy.com/media/26gsad5RsZVhKsUDe/giphy.gif?cid=ecf05e470tj7pgrjk4dellfnm8redpys545p4wkeqczgr60w&rid=giphy.gif&ct=g')
+
+    await market.createMarketItem(nftContractAddress, 1, auctionPrice, { value: listingPrice })
+    await market.createMarketItem(nftContractAddress, 2, auctionPrice, { value: listingPrice })
+
+    const [_, buyerAdress] = await ethers.getSigners()
+
+    await market
+      .connect(buyerAdress)
+      .createMarketSale(nftContractAddress, 1, { value: auctionPrice.toString() })
+
+    const items = await market.fetchUnsoldMarketItems()
+
+    console.log('unsold market items', items)
+
   });
 });
