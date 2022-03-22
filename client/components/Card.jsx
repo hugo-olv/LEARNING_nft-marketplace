@@ -7,12 +7,13 @@ export const Card = ({
     title = 'Title',
     assetURL = '',
     collectionURL = '',
-    collectionTitle = '',
+    collectionTitle,
     priceSubText = 'Current bid',
     buttonText = 'Place bid',
+    buttonDisable = false,
     buttonOnClick,
-    price = '1',
-    symbol = 'ETH'
+    price,
+    symbol
 }) => {
 
     const styles = {
@@ -33,8 +34,8 @@ export const Card = ({
                     height={640}
                     objectFit='cover' />
             </div>
-            <div className='z-20 block relative w-full -mb-[72px]'>
-                <div className='h-full bg-white w-full will-change-transform z-10 transition-transform sm:hover:-translate-y-[72px]'>
+            <div className={`z-20 block relative w-full ${!buttonDisable && '-mb-[72px]'}`}>
+                <div className={`h-full bg-white w-full will-change-transform z-10 ${!buttonDisable && 'transition-transform sm:hover:-translate-y-[72px]'}`}>
                     <a href={assetURL} className='block absolute h-[140%] w-full top-0 cursor-pointer'></a>
 
                     <div className='flex flex-col px-6 pb-6 pt-6'>
@@ -46,17 +47,18 @@ export const Card = ({
                         </Link>}
                     </div>
 
-                    <div className='flex flex-col px-6 pb-6'>
-
-                        <div className='flex flex-shrink-0 gap-2 pb-6'>
-                            <div>
-                                <div className='mb-2 text-base text-zinc-500 font-semibold'>{priceSubText}</div>
-                                <div className='text-base text-black font-bold'>{price.toUpperCase()} {symbol.toUpperCase()}</div>
-                            </div>
-                        </div>
-                        <button onClick={buttonOnClick} className='z-10 bg-black text-white text-base font-bold w-full min-h-[44px] px-6 rounded-2xl whitespace-nowrap'>
-                            {buttonText}
-                        </button>
+                    <div className={`flex flex-col px-6 ${!buttonDisable && 'pb-6'}`}>
+                        {(price && priceSubText) &&
+                            <div className={`flex flex-shrink-0 gap-2 ${!buttonDisable && 'pb-6'}`}>
+                                <div>
+                                    <div className='mb-2 text-base text-zinc-500 font-semibold'>{priceSubText}</div>
+                                    <div className='text-base text-black font-bold'>{price?.toUpperCase()} {symbol?.toUpperCase()}</div>
+                                </div>
+                            </div>}
+                        {!buttonDisable &&
+                            <button onClick={buttonOnClick} className='z-10 bg-black text-white text-base font-bold w-full min-h-[44px] px-6 rounded-2xl whitespace-nowrap'>
+                                {buttonText}
+                            </button>}
                     </div>
 
                 </div>

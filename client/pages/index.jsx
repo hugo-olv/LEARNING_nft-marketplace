@@ -33,9 +33,9 @@ const dummyCards = [
 export default function Home() {
   const { loadNFTs, nfts, loaded } = useContext(DataContext)
 
-  if (loaded && !nfts.length) return (
-    <h1>No items in marketplace</h1>
-  )
+  // if (loaded && !nfts.length) return (
+  //   <h1>No items in marketplace</h1>
+  // )
 
   return (
     <GridSection
@@ -44,7 +44,7 @@ export default function Home() {
       ping
     >
       {/* TODO: Implement buy action */}
-      {nfts.map(({ image, name, description, price }, idx) =>
+      {dummyCards.map(({ image, name, description, price }, idx) =>
         <Card
           key={idx}
           imgSrc={image}
