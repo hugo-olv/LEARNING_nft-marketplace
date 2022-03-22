@@ -1,5 +1,7 @@
-import Link from 'next/link'
+import { useContext } from 'react'
+import { DataContext } from '../context'
 import { Card, GridSection } from '../components'
+
 
 const dummyCards = [
   {
@@ -21,7 +23,7 @@ const dummyCards = [
     price: '0.75'
   },
   {
-    imgSrc: 'https://f8n-production-collection-assets.imgix.net/0x38Df39aEbC131e51f3c980bb34bd76007e1b179F/6/nft.jpg',
+    imgSrc: 'https://f8n-production-collection-assets.imgix.net/0x77F1c0B2c1638b0E32F1379f6733117B3B39339D/3/nft.jpg',
     title: 'Altinha',
     collectionTitle: 'Clairdelune',
     price: '1.60'
@@ -29,6 +31,11 @@ const dummyCards = [
 ]
 
 export default function Home() {
+  const { loadNFTs, nfts, loaded } = useContext(DataContext)
+
+  if (loaded && !nfts.length) return (
+    <h1>No items in marketplace</h1>
+  )
 
   return (
     <GridSection
@@ -36,12 +43,12 @@ export default function Home() {
       linkName='View all auctions'
       ping
     >
-      {dummyCards.map(({ imgSrc, title, collectionTitle, price }, idx) =>
+      {nfts.map(({ image, name, description, price }, idx) =>
         <Card
           key={idx}
-          imgSrc={imgSrc}
-          title={title}
-          collectionTitle={collectionTitle}
+          imgSrc={image}
+          title={name}
+          collectionTitle={description}
           price={price}
           symbol='eth'
         />
