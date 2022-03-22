@@ -5,11 +5,12 @@ export const Card = ({
     imgSrc = 'https://f8n-production-collection-assets.imgix.net/0x7bD33f9DfBCe127EAD20E69971359A2cF8A1a075/8/nft.png',
     imgAlt = 'NFT media',
     title = 'Title',
-    URL = '',
+    assetURL = '',
     collectionURL = '',
     collectionTitle = '',
     priceSubText = 'Current bid',
     buttonText = 'Place bid',
+    buttonOnClick,
     price = '1',
     symbol = 'ETH'
 }) => {
@@ -34,7 +35,7 @@ export const Card = ({
             </div>
             <div className='z-20 block relative w-full -mb-[72px]'>
                 <div className='h-full bg-white w-full will-change-transform z-10 transition-transform sm:hover:-translate-y-[72px]'>
-                    <a href={URL} className='block absolute h-[140%] w-full top-0 cursor-pointer'></a>
+                    <a href={assetURL} className='block absolute h-[140%] w-full top-0 cursor-pointer'></a>
 
                     <div className='flex flex-col px-6 pb-6 pt-6'>
                         <h2 className={styles.title(collectionTitle)}>{title}</h2>
@@ -53,7 +54,7 @@ export const Card = ({
                                 <div className='text-base text-black font-bold'>{price.toUpperCase()} {symbol.toUpperCase()}</div>
                             </div>
                         </div>
-                        <button className='bg-black text-white text-base font-bold w-full min-h-[44px] px-6 rounded-2xl whitespace-nowrap'>
+                        <button onClick={buttonOnClick} className='z-10 bg-black text-white text-base font-bold w-full min-h-[44px] px-6 rounded-2xl whitespace-nowrap'>
                             {buttonText}
                         </button>
                     </div>

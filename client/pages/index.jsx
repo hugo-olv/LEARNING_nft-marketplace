@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import { DataContext } from '../context'
 import { Card, GridSection } from '../components'
 
-
+// TODO: Remove when real data work.
 const dummyCards = [
   {
     imgSrc: 'https://f8n-production-collection-assets.imgix.net/0x7bD33f9DfBCe127EAD20E69971359A2cF8A1a075/8/nft.png',
@@ -43,6 +43,7 @@ export default function Home() {
       linkName='View all auctions'
       ping
     >
+      {/* TODO: Implement buy action */}
       {nfts.map(({ image, name, description, price }, idx) =>
         <Card
           key={idx}

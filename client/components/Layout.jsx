@@ -27,6 +27,10 @@ export const Layout = ({ children }) => {
     const [menuOpen, setMenuOpen] = useState(false)
     const router = useRouter()
 
+    // TODO: Rename these const appropriatly.
+    const specialView = ['/create', '/buy']
+    const isSpecialView = specialView.some(path => path === router.pathname)
+
     const toggleMenuOpen = () => {
         setMenuOpen(prevState => !prevState)
     }
@@ -75,7 +79,7 @@ export const Layout = ({ children }) => {
 
 
     return (
-        <div className='max-w-[1600px] mx-auto w-full'>
+        <div className={`max-w-[1600px] mx-auto w-full h-screen ${isSpecialView ? 'bg-[#F2F2F2]' : 'bg-white'}`}>
             <div>
                 {/* Mobile Menu */}
                 {menuOpen &&
@@ -101,30 +105,33 @@ export const Layout = ({ children }) => {
                     </Link>
                     <div className='flex items-center'>
                         {/* Desktop navlinks */}
-                        <div className="hidden lg:flex items-center">
-                            {links.map(({ name, href }, idx) => {
-                                if (name === 'Create') return
-                                return <Navlink key={idx} href={href} name={name} />
-                            })}
-                        </div>
+                        {!isSpecialView &&
+                            <div className="hidden lg:flex items-center">
+                                {links.map(({ name, href }, idx) => {
+                                    if (name === 'Create') return
+                                    return <Navlink key={idx} href={href} name={name} />
+                                })}
+                            </div>}
                         {/* Desktop create button */}
-                        <div className='hidden lg:block'>
-                            <Link href={links[3].href}>
-                                <button className={styles.button}>{links[3].name}</button>
-                            </Link>
-                        </div>
+                        {!isSpecialView &&
+                            <div className='hidden lg:block'>
+                                <Link href={links[3].href}>
+                                    <button className={styles.button}>{links[3].name}</button>
+                                </Link>
+                            </div>}
                         {/* Mobile hamburger button */}
-                        <button
-                            onClick={toggleMenuOpen}
-                            className='active:scale-95 transition-transform touch-manipulation flex lg:hidden items-center justify-center shrink-0 rounded-full shadow-xl text-black bg-white min-h-[54px] min-w-[54px] cursor-pointer'
-                        >
-                            {!menuOpen ? (
-                                <svg className="block" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="16"><path d="M1 8h22M1 1h22M1 15h22" stroke="currentColor" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round"></path></svg>
-                            ) : (
-                                <svg className="block" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M15 1 1 15M15 15 1 1" stroke="currentColor" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path></svg>
-                            )}
+                        {!isSpecialView &&
+                            <button
+                                onClick={toggleMenuOpen}
+                                className='active:scale-95 transition-transform touch-manipulation flex lg:hidden items-center justify-center shrink-0 rounded-full shadow-xl text-black bg-white min-h-[54px] min-w-[54px] cursor-pointer'
+                            >
+                                {!menuOpen ? (
+                                    <svg className="block" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="24" height="16"><path d="M1 8h22M1 1h22M1 15h22" stroke="currentColor" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round"></path></svg>
+                                ) : (
+                                    <svg className="block" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" width="20" height="20"><path d="M15 1 1 15M15 15 1 1" stroke="currentColor" strokeWidth="2" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"></path></svg>
+                                )}
 
-                        </button>
+                            </button>}
 
                     </div>
                 </div>
