@@ -1,3 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body {
+  height: 100%;
+}
+
+body,
+#__next {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+input[type="text"],
+textarea {
+  box-shadow: rgb(204 204 204) 0px 0px 1px, rgb(0 0 0 / 5%) 0px 10px 20px;
+}
+
+.price,
+.file {
+  box-shadow: rgb(0 0 0 / 5%) 0px 10px 20px;
+}
+
+.price input[type="number"] {
+  box-shadow: rgb(204 204 204) 0px 0px 1px;
+}

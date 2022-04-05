@@ -10,10 +10,6 @@ export const DataProvider = ({ children }) => {
     const [nfts, setNfts] = useState([])
     const [loaded, setLoaded] = useState(false)
 
-    useEffect(() => {
-        loadNFTs()
-    }, [])
-
     const loadNFTs = async () => {
         const provider = new ethers.providers.JsonRpcProvider()
         const tokenContract = new ethers.Contract(CONTRACT_ADDRESS.nft, CONTRACT_ABI.nft, provider)
@@ -31,7 +27,7 @@ export const DataProvider = ({ children }) => {
                 seller,
                 owner,
                 image: meta.data.image,
-                name: meta.data.name,
+                title: meta.data.title,
                 description: meta.data.description
             }
         }))

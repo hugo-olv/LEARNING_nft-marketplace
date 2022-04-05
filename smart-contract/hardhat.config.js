@@ -6,7 +6,7 @@ const { PROJECT_ID, PRIVATE_KEY } = process.env;
 module.exports = {
   networks: {
     hardhat: {
-      chaindId: 1337
+      chaindId: 31337
     },
     mumbai: {
       url: `https://polygon-mumbai.g.alchemy.com/v2/${PROJECT_ID}`,

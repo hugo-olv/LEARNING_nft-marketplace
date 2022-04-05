@@ -3,59 +3,73 @@ import Link from 'next/link'
 
 export const Card = ({
     imgSrc = 'https://f8n-production-collection-assets.imgix.net/0x7bD33f9DfBCe127EAD20E69971359A2cF8A1a075/8/nft.png',
+    imgUri = null,
     imgAlt = 'NFT media',
     title = 'Title',
     assetURL = '',
     collectionURL = '',
     collectionTitle,
-    priceSubText = 'Current bid',
-    buttonText = 'Place bid',
-    buttonDisable = false,
+    priceSubText = 'Buy Now',
+    buttonText = 'Buy now',
+    buttonDisabled = false,
     buttonOnClick,
     price,
-    symbol
+    symbol,
+    disabled = false
 }) => {
 
+    //TODO: Move all classes to this styles const.
     const styles = {
         title: hasMb =>
             `text-2xl ${hasMb && 'mb-3'} text-ellipsis whitespace-nowrap overflow-hidden font-semibold`
     }
 
     return (
-        <div className='flex flex-col flex-auto relative sm:min-w-[340px] rounded-lg shadow-md overflow-hidden'>
-            <a href={URL} className='absolute top-0 left-0 w-full h-full z-10'></a>
+        <div className='flex flex-col flex-auto relative bg-white sm:min-w-[340px] rounded-lg shadow-gray-200 shadow-lg overflow-hidden'>
+            {!disabled && <a href={assetURL} className='absolute top-0 left-0 w-full h-full z-10'></a>}
             <div className='block relative'>
-                <Image
-                    priority
-                    layout="intrinsic"
-                    src={imgSrc}
-                    alt={imgAlt}
-                    width={640}
-                    height={640}
-                    objectFit='cover' />
+                {!imgUri ? (
+                    <Image
+                        priority
+                        layout="responsive"
+                        src={imgSrc}
+                        alt={imgAlt}
+                        width={640}
+                        height={640}
+                        objectFit='cover' />
+                ) : (
+                    <img src={imgUri} width='640' height='640' alt="uploaded image" className='object-cover aspect-square w-full' />
+                )}
             </div>
-            <div className={`z-20 block relative w-full ${!buttonDisable && '-mb-[72px]'}`}>
-                <div className={`h-full bg-white w-full will-change-transform z-10 ${!buttonDisable && 'transition-transform sm:hover:-translate-y-[72px]'}`}>
-                    <a href={assetURL} className='block absolute h-[140%] w-full top-0 cursor-pointer'></a>
+            <div className={`z-20 block relative w-full ${!buttonDisabled && '-mb-[72px]'}`}>
+                <div className={`h-full bg-white w-full will-change-transform z-10 ${!buttonDisabled && 'transition-transform sm:hover:-translate-y-[72px]'}`}>
+                    {!disabled && <a href={assetURL} className='block absolute h-[140%] w-full top-0 cursor-pointer'></a>}
 
                     <div className='flex flex-col px-6 pb-6 pt-6'>
                         <h2 className={styles.title(collectionTitle)}>{title}</h2>
-                        {collectionTitle && <Link href={collectionURL}>
-                            <a className='z-10 mr-auto text-base md:text-lg text-zinc-500 font-semibold hover:text-zinc-900'>
+                        {(collectionTitle && !disabled) &&
+                            <Link href={collectionURL}>
+                                <a className='z-10 mr-auto text-base md:text-lg text-zinc-500 font-semibold hover:text-zinc-900'>
+                                    {collectionTitle}
+                                </a>
+                            </Link>
+                        }
+                        {(collectionTitle && disabled) &&
+                            <span className='z-10 mr-auto text-base md:text-lg text-zinc-500 font-semibold'>
                                 {collectionTitle}
-                            </a>
-                        </Link>}
+                            </span>
+                        }
                     </div>
 
-                    <div className={`flex flex-col px-6 ${!buttonDisable && 'pb-6'}`}>
+                    <div className={`flex flex-col px-6 ${!buttonDisabled && 'pb-6'}`}>
                         {(price && priceSubText) &&
-                            <div className={`flex flex-shrink-0 gap-2 ${!buttonDisable && 'pb-6'}`}>
+                            <div className={`flex flex-shrink-0 gap-2 ${!buttonDisabled && 'pb-6'}`}>
                                 <div>
                                     <div className='mb-2 text-base text-zinc-500 font-semibold'>{priceSubText}</div>
                                     <div className='text-base text-black font-bold'>{price?.toUpperCase()} {symbol?.toUpperCase()}</div>
                                 </div>
                             </div>}
-                        {!buttonDisable &&
+                        {!buttonDisabled &&
                             <button onClick={buttonOnClick} className='z-10 bg-black text-white text-base font-bold w-full min-h-[44px] px-6 rounded-2xl whitespace-nowrap'>
                                 {buttonText}
                             </button>}

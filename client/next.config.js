@@ -4,7 +4,8 @@ const nextConfig = {
   images: {
     domains: [
       'f8n-production-collection-assets.imgix.net',
-      'f8n-ipfs-production.imgix.net'
+      'f8n-ipfs-production.imgix.net',
+      'ipfs.infura.io'
     ],
   },
 }
